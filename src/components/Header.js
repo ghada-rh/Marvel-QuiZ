@@ -1,8 +1,8 @@
 import React from "react";
 
 const Header = () => {
-  return (<header>
-           <h1>Marvel Quiz</h1>
+  return (<header className="banner-container">
+           <h1><a>Marvel Quiz</a></h1>
          </header>);
 };
 export default Header;
