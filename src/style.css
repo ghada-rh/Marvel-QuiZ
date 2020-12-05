@@ -99,11 +99,11 @@ main {
 }
 
 .leftImg {
-  background-image: url(images/wolverine.png), url(images/griffes-gauche.png);
+  background-image: url(https://github.com/DonkeyGeek/marvel-quiz/blob/master/src/images/wolverine.png?raw=true), url(https://github.com/DonkeyGeek/marvel-quiz/blob/master/src/images/griffes-gauche.png?raw=true);
 }
 
 .rightImg {
-  background-image: url(images/wolverine.png), url(images/griffes-droit.png);
+  background-image: url(https://github.com/DonkeyGeek/marvel-quiz/blob/master/src/images/wolverine.png?raw=true), url(https://github.com/DonkeyGeek/marvel-quiz/blob/master/src/images/griffes-droit.png?raw=true);
 }
 
 .leftBox {
