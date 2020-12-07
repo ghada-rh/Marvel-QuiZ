@@ -6,9 +6,9 @@ const Logout = () => {
   const firebase = useContext(FirebaseContext);
   useEffect( ()=>{
     if(checked){
-      firebase.signoutUser().then()
+      firebase.signoutUser();
     }
-  },[input])
+  },[checked, firebase])
   return (
       <div className="logoutContainer">
         <label className="switch"> 
