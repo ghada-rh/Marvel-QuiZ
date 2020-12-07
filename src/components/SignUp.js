@@ -1,6 +1,8 @@
 import React, {useState, useContext} from "react";
 import {FirebaseContext} from './Firebase';
-const SignUp = () => {
+import {Link} from "react-router-dom";
+const SignUp = (props) => {
+  console.log(props)
   const firebase = useContext(FirebaseContext);
 
   const data = {
@@ -23,6 +25,7 @@ const SignUp = () => {
      firebase.signupUser(email, password)
      .then(user =>{
        setLoginData({...data});
+       props.history.push('/Welcome');//c'la redirection dans react 
      })
      .catch(error=>{
        setError(error);
@@ -62,6 +65,9 @@ const SignUp = () => {
                 </div> 
                 {btn}
               </form>
+              <div className="linkContainer">
+                 <Link className='simpleLink' to="/Login">Déjà inscrit? Connectez-vous.</Link>
+              </div>
            </div>
          </div>
       </div>

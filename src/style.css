@@ -206,7 +206,7 @@ footer {
 
 .formBoxLeftSignup {
   min-height: 500px;
-  background-image: url(images/ironman.png);
+  background-image: url(https://github.com/DonkeyGeek/marvel-quiz/blob/master/src/images/ironman.png?raw=true);
   background-repeat: no-repeat;
   background-position: center center;
   flex: 0 1 50%;
@@ -214,7 +214,7 @@ footer {
 
 .formBoxLeftLogin {
   min-height: 500px;
-  background-image: url(images/spiderman.png);
+  background-image: url(https://github.com/DonkeyGeek/marvel-quiz/blob/master/src/images/spiderman.png?raw=true);
   background-repeat: no-repeat;
   background-position: center center;
   flex: 0 1 50%;
@@ -222,7 +222,7 @@ footer {
 
 .formBoxLeftForget {
   min-height: 500px;
-  background-image: url(images/deadpool.png);
+  background-image: url(https://github.com/DonkeyGeek/marvel-quiz/blob/master/src/images/deadpool.png?raw=true);
   background-repeat: no-repeat;
   background-position: center center;
   flex: 0 1 50%;
