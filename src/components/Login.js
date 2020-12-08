@@ -4,7 +4,7 @@ import {FirebaseContext} from './Firebase';
 
 const Login = (props) => {
   const firebase = useContext(FirebaseContext);
-  //cette fois on va utiliser 2 variable 
+  //cette fois on va utiliser 2 variable
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [btn, setBtn] = useState(false);
@@ -22,7 +22,7 @@ const Login = (props) => {
      e.preventDefault();
      firebase.loginUser(email, password)
      .then(user=>{
-       console.log(user)
+       //console.log(user)
        setPassword('')
        setEmail('')
        props.history.push('/Welcome')
@@ -34,10 +34,9 @@ const Login = (props) => {
      })       
      }
   return (
-        <div className="signUpLoginBox">
-           <div className="slContainer">
-           <div className="formBoxLeftLogin">
-         </div>
+    <div className="signUpLoginBox">
+      <div className="slContainer">
+         <div className="formBoxLeftLogin"></div>
 
          <div className="formBoxRight">
            <div className="formContent">
