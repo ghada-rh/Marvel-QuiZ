@@ -32,7 +32,7 @@ class Firebase {
   //recuperer mot de passe
   passwordReset = email => this.auth.sendPasswordResetEmail(email);
 
-  user = (uid)=> this.db.doc(`users ${uid}` );
+  user = (uid)=> this.db.doc(`users/${uid}` );
 }
 
 export default Firebase;
