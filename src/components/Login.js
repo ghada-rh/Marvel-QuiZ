@@ -16,7 +16,7 @@ const Login = (props) => {
   } else if(btn ===true){
     setBtn(false);
   } }
-    ,[email, password])
+    ,[email, password, btn])
   
    const hundleSubmit = e =>{
      e.preventDefault();
