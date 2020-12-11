@@ -1,10 +1,16 @@
-import React from "react";
-
-const Quiz = () => {
+import React, {Component} from "react";
+import Levels from './Levels';
+import ProgressBar from './ProgressBar';
+class Quiz extends Component{
+  render(){
+  const {pseudo}= this.props.userData;
+  console.log(this.props);
   return (
     <div >
-      <div >Quiz</div>
+      <Levels/>
+      <ProgressBar/>
     </div>
   );
+  }
 };
 export default Quiz;
