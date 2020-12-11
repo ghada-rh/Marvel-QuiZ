@@ -11,10 +11,17 @@ const Welcome = (props) => {
     let listener = firebase.auth.onAuthStateChanged(user =>{
       user ? setUserSession(user) : props.history.push('/');
     })
+    firebase.user(userSession.uid)
+    .get()
+    .then( doc =>{
+      if(doc && doc.exists){
+        const myData = doc.
+      }
+    })
     return () =>{
       listener()
     };
-  }, [userSession, firebase, props.history])
+  }, [userSession])
 
   return userSession === null ? (
     <Fragment>
