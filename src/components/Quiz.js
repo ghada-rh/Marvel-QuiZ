@@ -10,7 +10,10 @@ class Quiz extends Component{
     maxQuestions: 10,
     storedQuestions: [],
     question: null,
-    options: []
+    options: [],
+    idQuestion: 0,
+    btnDisabled: true, 
+    userAnswer: null
   }
 
   loadQuestions = quiz =>{
@@ -31,17 +34,40 @@ class Quiz extends Component{
   
   componentDidUpdate(prevProps, prevState){
      if(this.state.storedQuestions !== prevState.storedQuestions){
-
+         this.setState({
+           question: this.state.storedQuestions[this.state.idQuestion].question,
+           options: this.state.storedQuestions[0].options
+         })
      }
+  }
+  submitAnswer = (selectedAnswer) =>{
+    this.setState({
+      userAnswer: selectedAnswer,
+      btnDisabled: false
+    })
   }
 
   render(){
   const {pseudo}= this.props.userData;
+  const displayOptions = this.state.options.map( (option, index) =>{
+        return(
+        <p key={index} className={`answerOptions ${this.state.userAnswer === option ? "selected":null}`}  onClick={()=> 
+          this.submitAnswer(option)}
+          >
+        {option}
+        
+        </p>)
+      })
   console.log(this.props);
   return (
     <div >
       <Levels/>
       <ProgressBar/>
+      <h2>{this.state.question}</h2>
+      {displayOptions}
+
+      <button className="btnSubmit" disabled ={this.state.btnDisabled}>Suivant</button>
+      
     </div>
   );
   }
