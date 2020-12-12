@@ -13,13 +13,16 @@ class Quiz extends Component{
     options: [],
     idQuestion: 0,
     btnDisabled: true, 
-    userAnswer: null
+    userAnswer: null,
+    score: 0
   }
+  storedDataRef = React.createRef();
 
   loadQuestions = quiz =>{
      console.log(quiz);
      const fetchedArrayQuiz = QuizMarvel[0].quizz[quiz];
-     if(fetchedArrayQuiz.length >= this.state. maxQuestions){
+     if(fetchedArrayQuiz.length >= this.state.maxQuestions){
+        this.storedDataRef.current = fetchedArrayQuiz
         const newArray = fetchedArrayQuiz.map( ({answer, ...keepRest}) => keepRest);
         this.setState({
           storedQuestions: newArray });
@@ -31,6 +34,23 @@ class Quiz extends Component{
   componentDidMount(){
       this.loadQuestions(this.state.levelsNames[this.state.quizLevel]);
   }
+
+  nextQuestion = () =>{
+    if(this.state.idQuestion === this.state.maxQuestions - 1){
+       //end
+    } else {
+        this.setState( (prevState)=>({
+           idQuestion: prevState.idQuestion +1
+        }))
+    }
+    goodAnswer = this.storedDataRef.current[this.state.idQuestion].answer;
+    if(this.state.userAnswer === goodAnswer){
+      this.setState( prevState =>({
+          score: prevState.score + 1
+      }))
+    }
+  }
+
   
   componentDidUpdate(prevProps, prevState){
      if(this.state.storedQuestions !== prevState.storedQuestions){
@@ -66,7 +86,9 @@ class Quiz extends Component{
       <h2>{this.state.question}</h2>
       {displayOptions}
 
-      <button className="btnSubmit" disabled ={this.state.btnDisabled}>Suivant</button>
+      <button className="btnSubmit" disabled ={this.state.btnDisabled}
+      onClick={this.nextQuestion}> 
+      Suivant</button>
       
     </div>
   );
