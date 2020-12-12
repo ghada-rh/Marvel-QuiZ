@@ -39,11 +39,12 @@ class Quiz extends Component{
     if(this.state.idQuestion === this.state.maxQuestions - 1){
        //end
     } else {
-        this.setState( (prevState)=>({
+        this.setState( prevState =>({
            idQuestion: prevState.idQuestion +1
         }))
     }
-    goodAnswer = this.storedDataRef.current[this.state.idQuestion].answer;
+    const goodAnswer = this.storedDataRef.current[this.state.idQuestion].answer;
+    
     if(this.state.userAnswer === goodAnswer){
       this.setState( prevState =>({
           score: prevState.score + 1
@@ -56,9 +57,17 @@ class Quiz extends Component{
      if(this.state.storedQuestions !== prevState.storedQuestions){
          this.setState({
            question: this.state.storedQuestions[this.state.idQuestion].question,
-           options: this.state.storedQuestions[0].options
+           options: this.state.storedQuestions[this.state.idQuestion].options
          })
      }
+     if(this.state.idQuestions !== prevState.idQuestions){
+         this.setState({
+           question: this.state.storedQuestions[this.state.idQuestion].question,
+           options: this.state.storedQuestions[this.state.idQuestion].options,
+           btnDisabled: true, 
+           userAnswer: null
+         })
+     } 
   }
   submitAnswer = (selectedAnswer) =>{
     this.setState({
