@@ -5,6 +5,8 @@ import {QuizMarvel} from './QuizMarvel';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 
+toast.configure();
+
 class Quiz extends Component{
   state = {
     levelsNames: ['debutant', 'confirme', 'expert'],
@@ -16,7 +18,8 @@ class Quiz extends Component{
     idQuestion: 0,
     btnDisabled: true, 
     userAnswer: null,
-    score: 0
+    score: 0,
+    showWelcomeMsg: false
   }
   storedDataRef = React.createRef();
 
@@ -32,7 +35,24 @@ class Quiz extends Component{
        console.log('pas assez de questions');
      }
   }
-
+  
+  showWelcomeMsg = pseudo =>{
+    if(!this.state.showWelcomeMsg){
+      this.setState({
+        showWelcomeMsg: true
+      })
+      toast.warn(`Bienvenue  ${pseudo}, et bonne chance!`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
+    }
+      
+  }
   componentDidMount(){
       this.loadQuestions(this.state.levelsNames[this.state.quizLevel]);
   }
@@ -70,7 +90,11 @@ class Quiz extends Component{
            userAnswer: null
          })
      } 
+     if(this.props.userData.pseudo){
+       this.showWelcomeMsg(this.props.userData.pseudo);
+     }
   }
+
   submitAnswer = (selectedAnswer) =>{
     this.setState({
       userAnswer: selectedAnswer,
