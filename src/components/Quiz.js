@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import Levels from './Levels';
 import ProgressBar from './ProgressBar';
 import {QuizMarvel} from './QuizMarvel';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 class Quiz extends Component{
   state = {
