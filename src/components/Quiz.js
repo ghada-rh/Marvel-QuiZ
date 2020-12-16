@@ -1,9 +1,10 @@
-import React, {Component} from "react";
+import React, {Component, Fragment} from "react";
 import Levels from './Levels';
 import ProgressBar from './ProgressBar';
 import {QuizMarvel} from './QuizMarvel';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import QuizOver from './QuizOver';
 
 toast.configure();
 
@@ -19,7 +20,8 @@ class Quiz extends Component{
     btnDisabled: true, 
     userAnswer: null,
     score: 0,
-    showWelcomeMsg: false
+    showWelcomeMsg: false,
+    quizEnd: false
   }
   storedDataRef = React.createRef();
 
@@ -59,7 +61,7 @@ class Quiz extends Component{
 
   nextQuestion = () =>{
     if(this.state.idQuestion === this.state.maxQuestions - 1){
-       //end
+       this.gameOver();
     } else {
         this.setState( prevState =>({
            idQuestion: prevState.idQuestion +1
@@ -71,25 +73,25 @@ class Quiz extends Component{
       this.setState( prevState =>({
           score: prevState.score + 1
       }))
-      toast.warn('bravo!', {
+      toast.success('Bravo +1!', {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          progress: undefined,
+          bodyClassName: "tostify-color",
           });
     } else{
-      toast.warn('echec!', {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          });
+      toast.error('Raté 0!', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      bodyClassName: "tostify-color",
+      });
     }
   }
 
@@ -120,7 +122,12 @@ class Quiz extends Component{
       btnDisabled: false
     })
   }
-
+  
+  gameOver = ()=>{
+    this.setState({
+      quizEnd: true
+    })
+  }
   render(){
   const {pseudo}= this.props.userData;
   const displayOptions = this.state.options.map( (option, index) =>{
@@ -132,20 +139,22 @@ class Quiz extends Component{
         
         </p>)
       })
-  console.log(this.props);
-  return (
-    <div >
-      <Levels/>
-      <ProgressBar/>
-      <h2>{this.state.question}</h2>
-      {displayOptions}
+ // console.log(this.props);
+  
+  return this.state.quizEnd ? ( <QuizOver/> ) : 
+       ( <Fragment >
+          <Levels/>
+          <ProgressBar idQuestion={this.state.idQuestion} maxQuestions = {this.state.maxQuestions} />
+          <h2>{this.state.question}</h2>
+          {displayOptions}
 
-      <button className="btnSubmit" disabled ={this.state.btnDisabled}
-      onClick={this.nextQuestion}> 
-      Suivant</button>
-      
-    </div>
-  );
+          <button 
+          className="btnSubmit" disabled ={this.state.btnDisabled}
+          onClick={this.nextQuestion}> 
+          {this.state.idQuestion < this.state.maxQuestions-1 ? "Suivant" : "Terminer"}
+          </button>
+          
+        </Fragment>);
   }
 };
 export default Quiz;
