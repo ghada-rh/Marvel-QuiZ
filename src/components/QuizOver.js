@@ -9,12 +9,15 @@ const QuizOver = React.forwardRef((props, ref) => { //psk on ne peut pas acceder
        setAsked(ref.current)
   },[ref])
   
-  asked.map( item =>{
-     <tr>
+  const questionAnswer= asked.map( item =>{
+    return(
+       <tr key={item.id}>
         <td>{item.question}</td>
         <td>{item.answer}</td>
+        <td><button className="btnInfo">Info</button></td>
         
       </tr>
+    )
   })
   return <Fragment>
             <div className="stepsBtnContainer">
@@ -42,11 +45,7 @@ const QuizOver = React.forwardRef((props, ref) => { //psk on ne peut pas acceder
                    </tr>
                  </thead>
                  <tbody>
-                   <tr>
-                     <td>Questions</td>
-                     <td>Réponses</td>
-                     <td>Infos</td>
-                   </tr>
+                   {questionAnswer}
                  </tbody>
                </table>
             </div>
