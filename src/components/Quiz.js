@@ -50,7 +50,6 @@ class Quiz extends Component{
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          progress: undefined,
           });
     }
       
@@ -115,7 +114,7 @@ class Quiz extends Component{
        this.showWelcomeMsg(this.props.userData.pseudo);
      }
   }
-
+  
   submitAnswer = (selectedAnswer) =>{
     this.setState({
       userAnswer: selectedAnswer,
@@ -123,10 +122,22 @@ class Quiz extends Component{
     })
   }
   
+  getPercentage = (maxQuest, ourScore)=>(ourScore/maxQuest)*100 
   gameOver = ()=>{
-    this.setState({
-      quizEnd: true
+    const gradePercent = this.getPercentage(this.state.maxQuestions, this.state.score);
+    if(this.gradePercent >= 50){
+        this.setState({
+           quizLevel : this.state.quizLevel + 1,
+           percent: this.state.gradePercent,
+           quizEnd: true
     })
+    }else {
+        this.setState({
+           percent: this.state.gradePercent,
+           quizEnd: true
+    })
+    }
+    
   }
   render(){
   const {pseudo}= this.props.userData;
@@ -141,8 +152,15 @@ class Quiz extends Component{
       })
  // console.log(this.props);
   
-  return !this.state.quizEnd ? ( 
-       <QuizOver ref = {this.storedDataRef} toto='toto'/>
+  return this.state.quizEnd ? ( 
+       <QuizOver 
+       ref = {this.storedDataRef} 
+       quizLevel = {this.state.quizLevel}
+       score = {this.state.score}
+       percent = {this.state.percent}
+       levelsNames = {this.state.levelsNames}
+       maxQuestions = {this.state.maxQuestions}
+       />
         )
         : 
        ( <Fragment >
