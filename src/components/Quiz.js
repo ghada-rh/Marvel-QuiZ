@@ -24,7 +24,7 @@ class Quiz extends Component{
   storedDataRef = React.createRef();
 
   loadQuestions = quiz =>{
-     console.log(quiz);
+     //console.log(quiz);
      const fetchedArrayQuiz = QuizMarvel[0].quizz[quiz];
      if(fetchedArrayQuiz.length >= this.state.maxQuestions){
         this.storedDataRef.current = fetchedArrayQuiz
@@ -71,6 +71,25 @@ class Quiz extends Component{
       this.setState( prevState =>({
           score: prevState.score + 1
       }))
+      toast.warn('bravo!', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
+    } else{
+      toast.warn('echec!', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
     }
   }
 
@@ -82,7 +101,7 @@ class Quiz extends Component{
            options: this.state.storedQuestions[this.state.idQuestion].options
          })
      }
-     if(this.state.idQuestions !== prevState.idQuestions){
+     if(this.state.idQuestion !== prevState.idQuestion){
          this.setState({
            question: this.state.storedQuestions[this.state.idQuestion].question,
            options: this.state.storedQuestions[this.state.idQuestion].options,
