@@ -16,7 +16,7 @@ const ProgressBar = ({idQuestion, maxQuestions}) => {
                 <div className="progressPercent" >
                   {`Progression: ${progress}%`}
                 </div>
-            </div>;
+            </div>
             <div className="progressBar">
                <div className="progressBarChange" style={{width:`${progress}%` }}></div> 
             </div> 

@@ -141,7 +141,10 @@ class Quiz extends Component{
       })
  // console.log(this.props);
   
-  return this.state.quizEnd ? ( <QuizOver/> ) : 
+  return !this.state.quizEnd ? ( 
+       <QuizOver ref = {this.storedDataRef} toto='toto'/>
+        )
+        : 
        ( <Fragment >
           <Levels/>
           <ProgressBar idQuestion={this.state.idQuestion} maxQuestions = {this.state.maxQuestions} />
