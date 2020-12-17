@@ -1,4 +1,5 @@
 import React, {Fragment, useEffect, useState} from "react";
+import { GiTrophyCup } from 'react-icons/gi';
 
 const QuizOver = React.forwardRef((props, ref) => { //psk on ne peut pas acceder à un ref via props à travers un function component que avec cette methode
   
@@ -29,7 +30,9 @@ const QuizOver = React.forwardRef((props, ref) => { //psk on ne peut pas acceder
           </Fragment>  
         ) :
         (  <Fragment>
-                <p className="successMsg">Expert!</p>
+                <p className="successMsg">
+                 <GiTrophyCup size='50px'/> Expert!
+                 </p>
                 <button 
                 className="btnResult gameOver"
                 onClick= { ()=> loadLevelQuestions(0) }>
