@@ -2,7 +2,7 @@ import React, {Fragment, useEffect, useState} from "react";
 
 const QuizOver = React.forwardRef((props, ref) => { //psk on ne peut pas acceder à un ref via props à travers un function component que avec cette methode
   
-  const {quizLevel, levelsNames, score, percent, maxQuestions} = props
+  const {quizLevel, levelsNames, score, percent, maxQuestions, loadLevelQuestions} = props
   const [asked, setAsked]=useState([]);
  
   useEffect( ()=>{
@@ -10,25 +10,37 @@ const QuizOver = React.forwardRef((props, ref) => { //psk on ne peut pas acceder
   },[ref])
   
   const averageGrade = maxQuestions/2 ;
+
+  if(score < averageGrade){
+    setTimeout(() => loadLevelQuestions(0), 3000);
+  }
+
   const decision = score >= averageGrade ? (
     <Fragment>
       <div className="stepsBtnContainer">
         { quizLevel < levelsNames.length ?
           (<Fragment>  
-              <p className="successMsg">bravo</p>
-              <button className="btnResult success">Niveau Suivant</button>
+              <p className="successMsg">bravo passz au niveau suivant</p>
+              <button 
+                 className="btnResult success"
+                 onClick= { ()=>loadLevelQuestions(quizLevel) }>
+                 Niveau Suivant
+              </button>
           </Fragment>  
         ) :
         (  <Fragment>
                 <p className="successMsg">Expert!</p>
-                <button className="btnResult gameOver">Niveau Suivant</button>
+                <button 
+                className="btnResult gameOver"
+                onClick= { ()=> loadLevelQuestions(0) }>
+                Acceuil</button>
           </Fragment>  
           )
           }
       </div>
       <div className="percentage" >
          <div className="progressPercent" >
-                  Reussite: {percent}
+                  Reussite: {percent} %
           </div>
           <div className="progressPercent" >
                  note : {score}/{maxQuestions}
@@ -42,7 +54,7 @@ const QuizOver = React.forwardRef((props, ref) => { //psk on ne peut pas acceder
        </div>
       <div className="percentage" >
         <div className="progressPercent" >
-            Reussite: {percent}
+            Reussite: {percent} %
         </div>
         <div className="progressPercent" >
            note : {score}/{maxQuestions}
@@ -65,6 +77,7 @@ const QuizOver = React.forwardRef((props, ref) => { //psk on ne peut pas acceder
   (
     <tr>
         <td colSpan>
+           <div className="loader"></div>
            <p>pas de reponse</p>
         </td>    
     </tr> 
