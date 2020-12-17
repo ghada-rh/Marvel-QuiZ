@@ -79,7 +79,7 @@ const QuizOver = React.forwardRef((props, ref) => { //psk on ne peut pas acceder
   ):
   (
     <tr>
-        <td colSpan>
+        <td colSpan="3">
            <div className="loader"></div>
            <p>pas de reponse</p>
         </td>    
