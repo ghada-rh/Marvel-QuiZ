@@ -4,7 +4,7 @@ import ProgressBar from './ProgressBar';
 import {QuizMarvel} from './QuizMarvel';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
-import QuizOver from './QuizOver';
+import QuizOver from './QuizOver'
 
 toast.configure();
 
@@ -179,7 +179,7 @@ class Quiz extends Component{
         )
         : 
        ( <Fragment >
-          <Levels/>
+          <Levels levelsNames={this.state.levelsNames} quizLevel = {this.state.quizLevel}/>
           <ProgressBar idQuestion={this.state.idQuestion} maxQuestions = {this.state.maxQuestions} />
           <h2>{this.state.question}</h2>
           {displayOptions}
