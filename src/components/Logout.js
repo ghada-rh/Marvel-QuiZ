@@ -14,7 +14,7 @@ const Logout = () => {
   const hundleChange = (e) =>{
     setChecked(e.target.checked)
   }
-  return (
+  return(
       <div className="logoutContainer">
         <label className="switch"> 
             <input type="checkbox" checked={checked} onChange={hundleChange}/>

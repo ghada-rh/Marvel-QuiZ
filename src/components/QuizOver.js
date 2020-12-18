@@ -1,15 +1,22 @@
 import React, {Fragment, useEffect, useState} from "react";
 import { GiTrophyCup } from 'react-icons/gi';
-
+import Modal from './Modal';
 const QuizOver = React.forwardRef((props, ref) => { //psk on ne peut pas acceder à un ref via props à travers un function component que avec cette methode
   
   const {quizLevel, levelsNames, score, percent, maxQuestions, loadLevelQuestions} = props
   const [asked, setAsked]=useState([]);
+  const [openModal, setOpenModel]=useState(false);
  
   useEffect( ()=>{
        setAsked(ref.current)
   },[ref])
   
+  const showModal = (id) =>{
+     setOpenModel(true);
+  }
+  const hideModal = () =>{
+     setOpenModel(false);
+  }
   const averageGrade = maxQuestions/2 ;
 
   if(score < averageGrade){
@@ -71,7 +78,7 @@ const QuizOver = React.forwardRef((props, ref) => { //psk on ne peut pas acceder
        <tr key={item.id}>
         <td>{item.question}</td>
         <td>{item.answer}</td>
-        <td><button className="btnInfo">Info</button></td>
+        <td><button className="btnInfo" onClick={ () => showModal(item.heroId)}>Info</button></td>
         
       </tr>
     )
@@ -103,6 +110,17 @@ const QuizOver = React.forwardRef((props, ref) => { //psk on ne peut pas acceder
                  </tbody>
                </table>
             </div>
+            <Modal openModal={openModal} hideModal = {hideModal}>
+                <div className="modalHeader">
+                     <h2>Titre</h2>
+                </div>
+                <div className="modalBody">
+                      <h3>Titre2</h3>
+                </div>
+                <div className="modalFooter">
+                      <button className='modalBtn'>Fermer</button>
+                </div>
+            </Modal>
           </Fragment> ;
 })
 export default React.memo(QuizOver);
