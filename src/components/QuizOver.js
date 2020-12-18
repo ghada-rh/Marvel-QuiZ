@@ -3,7 +3,19 @@ import { GiTrophyCup } from 'react-icons/gi';
 import Modal from './Modal';
 const QuizOver = React.forwardRef((props, ref) => { //psk on ne peut pas acceder à un ref via props à travers un function component que avec cette methode
   
-  const {quizLevel, levelsNames, score, percent, maxQuestions, loadLevelQuestions} = props
+  const {
+    quizLevel,
+    levelsNames,
+    score,
+    percent,
+    maxQuestions,
+    loadLevelQuestions
+    } = props;
+
+  const API_PUBLIC_KEY  = process.env.REACT_APP_MARVEL_API_KEY;
+  console.log(API_PUBLIC_KEY);
+  const hash = '95d75cfebda69c2ba3f44e7b6febe9d3';
+
   const [asked, setAsked]=useState([]);
   const [openModal, setOpenModel]=useState(false);
  
