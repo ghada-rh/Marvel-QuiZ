@@ -1,9 +1,9 @@
 import React from "react";
 
-const Modal = ({openModal, hideModal, children}) => {
+const Modal = ({openModal, children}) => {
   return (
       openModal && (
-        <div className="modalBackground" onClick={hideModal}>
+        <div className="modalBackground" >
           <div className="modalContainer">
              {children}
           </div>

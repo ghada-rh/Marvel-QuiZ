@@ -15,7 +15,7 @@ const QuizOver = React.forwardRef((props, ref) => { //psk on ne peut pas acceder
     } = props;
 
   const API_PUBLIC_KEY  ='b2482084fbaab8534d1d74f286731ae4';
-  console.log(API_PUBLIC_KEY);
+  //console.log(API_PUBLIC_KEY);
   const hash = 'd438c2449cf767f00d37f4d78de9e090';
 
   const [asked, setAsked]=useState([]);
@@ -25,20 +25,48 @@ const QuizOver = React.forwardRef((props, ref) => { //psk on ne peut pas acceder
  
   useEffect( ()=>{
        setAsked(ref.current)
+
+       if(localStorage.getItem('marvelStorageDate')){
+         const date = localStorage.getItem('marvelStorageDate')
+           checkDaraAge(date);
+       }
   },[ref])
   
+  //this methid is to refresh the localstorage every 15 days
+  const checkDaraAge = (date)=>{
+      var today = Date.now();
+      const timeDifference = today - date; //en milliseconde
+      const daysdifference = timeDifference / (1000 * 3600)
+      if(daysdifference >= 15){
+           localStorage.clear();
+           //et on ajoute la nouvelle date d'aujourdhui:
+           localStorage.setItem('marvelStorageDate', Date.now());
+      }
+  }
   const showModal = (id) =>{
      setOpenModel(true);
+    
+    if(localStorage.getItem(id)){
+       setCharacterInfos(JSON.parse(localStorage.getItem(id)));
+       setLoading(false);
+       //console.log(characterInfos);
+    } else{
+       axios
+        .get(`https://gateway.marvel.com:/v1/public/characters/${id}?ts=1&apikey=${API_PUBLIC_KEY}&hash=${hash}`)
+        .then( (response)=>{
+          console.log(response)
+          setCharacterInfos(response.data);
+          setLoading(false);
 
-     axios
-     .get(`https://gateway.marvel.com:/v1/public/characters/${id}?ts=1&apikey=${API_PUBLIC_KEY}&hash=${hash}`)
-     .then( (response)=>{
-       console.log(response)
-       setCharacterInfos(response.data);
-       //setLoading(false);
-     })
-     .catch( err => console.log(err) )
+          localStorage.setItem(id, JSON.stringify(response.data) ); //la methode setItem tekhou (key, value ili howa ykoun 'string')
+          if(!localStorage.getItem('marvelStorageDate')){
+              localStorage.setItem('marvelStorageDate', Date.now());
+          }
+        })
+        .catch( err => console.log(err) )
+        }     
   }
+
   const hideModal = () =>{
      setOpenModel(false);
      setLoading(true);
@@ -124,19 +152,50 @@ const QuizOver = React.forwardRef((props, ref) => { //psk on ne peut pas acceder
                      <h2>{characterInfos.data.results[0].name}</h2>
                 </div>
                 <div className="modalBody">
-                      <h3>Titre2</h3>
+                      <div className="comicImage">
+                          <img src ={characterInfos.data.results[0].thumbnail.path+'.'+characterInfos.data.results[0].thumbnail.extension}
+                           alt ={characterInfos.data.results[0].name} />
+                          {characterInfos.attributionText}
+                      </div>
+                      <div className="comicDetails">
+                        <h3>Description</h3>
+                        {characterInfos.data.results[0].description ?
+                        (<p>{characterInfos.data.results[0].description}</p>
+                        ):
+                        (
+                          <p>Description indisponoble..</p>
+                        )
+                        }
+                        <h3>Plus d'info</h3>
+                        {
+                          characterInfos.data.results[0].urls && (
+                            characterInfos.data.results[0].urls.map( (url, index) =>{
+                              return( <a
+                                    key= {index}
+                                    href={url.url}
+                                    target="_blank"
+                                    rel = "noopener noreferrer"
+                              >
+                                {url.type}
+                              </a>)
+                            })
+                          )
+                        }
+                      </div>
+                    
+                      
                 </div>
                 <div className="modalFooter">
-                      <button className='modalBtn'>Fermer</button>
+                      <button className='modalBtn' onClick={hideModal}>Fermer</button>
                 </div>
               </Fragment>
             ):(
               <Fragment>
              <div className="modalHeader">
-                     <h2>Rep marvel</h2>
+                     <h2>Rep de marvel..</h2>
                 </div>
                 <div className="modalBody">
-                      <h3>Titre2</h3>
+                      <div className="loader"></div>
                 </div>
               </Fragment>
             )
