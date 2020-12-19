@@ -1,10 +1,11 @@
 import React, {Fragment, useEffect, useState} from "react";
 import { GiTrophyCup } from 'react-icons/gi';
 import Modal from './Modal';
-
+import axios from 'axios';
 const QuizOver = React.forwardRef((props, ref) => { //psk on ne peut pas acceder à un ref via props à travers un function component que avec cette methode
   
-  const {
+  const 
+  {
     quizLevel,
     levelsNames,
     score,
@@ -13,12 +14,14 @@ const QuizOver = React.forwardRef((props, ref) => { //psk on ne peut pas acceder
     loadLevelQuestions
     } = props;
 
-  const API_PUBLIC_KEY  = process.env.REACT_APP_MARVEL_API_KEY;
+  const API_PUBLIC_KEY  ='b2482084fbaab8534d1d74f286731ae4';
   console.log(API_PUBLIC_KEY);
   const hash = 'd438c2449cf767f00d37f4d78de9e090';
 
   const [asked, setAsked]=useState([]);
   const [openModal, setOpenModel]=useState(false);
+  const [characterInfos,setCharacterInfos]=useState([]);
+  const [loading,setLoading]=useState(true);
  
   useEffect( ()=>{
        setAsked(ref.current)
@@ -26,9 +29,19 @@ const QuizOver = React.forwardRef((props, ref) => { //psk on ne peut pas acceder
   
   const showModal = (id) =>{
      setOpenModel(true);
+
+     axios
+     .get(`https://gateway.marvel.com:/v1/public/characters/${id}?ts=1&apikey=${API_PUBLIC_KEY}&hash=${hash}`)
+     .then( (response)=>{
+       console.log(response)
+       setCharacterInfos(response.data);
+       //setLoading(false);
+     })
+     .catch( err => console.log(err) )
   }
   const hideModal = () =>{
      setOpenModel(false);
+     setLoading(true);
   }
   const averageGrade = maxQuestions/2 ;
 
@@ -105,6 +118,28 @@ const QuizOver = React.forwardRef((props, ref) => { //psk on ne peut pas acceder
         </td>    
     </tr> 
   )
+  const resultModal = !loading ?
+           ( <Fragment>
+             <div className="modalHeader">
+                     <h2>{characterInfos.data.results[0].name}</h2>
+                </div>
+                <div className="modalBody">
+                      <h3>Titre2</h3>
+                </div>
+                <div className="modalFooter">
+                      <button className='modalBtn'>Fermer</button>
+                </div>
+              </Fragment>
+            ):(
+              <Fragment>
+             <div className="modalHeader">
+                     <h2>Rep marvel</h2>
+                </div>
+                <div className="modalBody">
+                      <h3>Titre2</h3>
+                </div>
+              </Fragment>
+            )
   return <Fragment>
             {decision}
             <hr/>
@@ -123,16 +158,9 @@ const QuizOver = React.forwardRef((props, ref) => { //psk on ne peut pas acceder
                  </tbody>
                </table>
             </div>
+            
             <Modal openModal={openModal} hideModal = {hideModal}>
-                <div className="modalHeader">
-                     <h2>Titre</h2>
-                </div>
-                <div className="modalBody">
-                      <h3>Titre2</h3>
-                </div>
-                <div className="modalFooter">
-                      <button className='modalBtn'>Fermer</button>
-                </div>
+                {resultModal}
             </Modal>
           </Fragment> ;
 })
